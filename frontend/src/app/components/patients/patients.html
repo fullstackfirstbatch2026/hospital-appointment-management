@@ -1,0 +1,104 @@
+<section class="page-container">
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow-label">PATIENT SERVICES</span>
+      <h1>Patient directory</h1>
+      <p>Keep patient details organized and easy to find. Add a patient or select a record to see more information.</p>
+    </div>
+    <button class="button button-primary" type="button" (click)="openAddDialog()">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Add patient
+    </button>
+  </div>
+
+  @if (successMessage()) { <div class="inline-success" role="status">{{ successMessage() }}</div> }
+  @if (errorMessage()) {
+    <div class="inline-error" role="alert">{{ errorMessage() }} <button class="table-link" type="button" (click)="loadPatients()">Try again</button></div>
+  }
+
+  <div class="toolbar patient-toolbar">
+    <label class="search-field">
+      <span class="sr-only">Search patient records</span>
+      <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.7" cy="8.7" r="5.7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m13 13 4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="field-control" type="search" placeholder="Search by name, phone, city or ID" (input)="setSearch($event)" />
+    </label>
+    <span class="result-count">{{ filteredPatients().length }} {{ filteredPatients().length === 1 ? 'patient' : 'patients' }}</span>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state"><span class="loading-spinner" aria-hidden="true"></span><p>Loading patient records…</p></div>
+  } @else if (!errorMessage() && filteredPatients().length === 0) {
+    <div class="empty-state surface-card">
+      <span class="empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M18 8h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+      <h2>{{ patients().length === 0 ? 'No patients yet' : 'No matching records' }}</h2>
+      <p>{{ patients().length === 0 ? 'Add your first patient to start building the directory.' : 'Try searching with another name, phone number, or city.' }}</p>
+      @if (patients().length === 0) { <button class="button button-primary empty-cta" type="button" (click)="openAddDialog()">Add a patient</button> }
+    </div>
+  } @else {
+    <div class="table-wrap patient-table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Patient</th><th>Patient ID</th><th>Phone</th><th>City</th><th><span class="sr-only">Actions</span></th></tr></thead>
+        <tbody>
+          @for (patient of filteredPatients(); track patient.patientId) {
+            <tr>
+              <td><span class="patient-name"><span class="patient-avatar" aria-hidden="true">{{ initials(patient.patientName) }}</span><span class="table-primary">{{ patient.patientName }}</span></span></td>
+              <td>#{{ patient.patientId }}</td>
+              <td>{{ patient.phone || '—' }}</td>
+              <td>{{ patient.city || '—' }}</td>
+              <td><button class="table-link" type="button" (click)="selectedPatient.set(patient)">View details <span aria-hidden="true">→</span></button></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
+
+@if (addDialogOpen()) {
+  <div class="overlay" (click)="closeAddDialog()">
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="add-patient-title" (click)="$event.stopPropagation()">
+      <button class="dialog-close" type="button" aria-label="Close add patient form" (click)="closeAddDialog()">×</button>
+      <span class="eyebrow-label">NEW PATIENT</span>
+      <h2 id="add-patient-title">Add patient details</h2>
+      <p class="dialog-intro">Enter the patient's contact information to create a new record.</p>
+      @if (formError()) { <div class="inline-error" role="alert">{{ formError() }}</div> }
+      <form [formGroup]="patientForm" (ngSubmit)="addPatient()" novalidate>
+        <div class="form-grid">
+          <div class="form-field full-width">
+            <label for="patientName">Full name</label>
+            <input id="patientName" class="field-control" type="text" formControlName="patientName" autocomplete="name" placeholder="e.g. Jordan Taylor" />
+            @if (patientForm.controls.patientName.touched && patientForm.controls.patientName.invalid) { <span class="field-error">Please enter a patient name.</span> }
+          </div>
+          <div class="form-field">
+            <label for="patientPhone">Phone number</label>
+            <input id="patientPhone" class="field-control" type="tel" formControlName="phone" autocomplete="tel" placeholder="+1 (555) 123-4567" />
+            @if (patientForm.controls.phone.touched && patientForm.controls.phone.invalid) { <span class="field-error">Enter a valid phone number.</span> }
+          </div>
+          <div class="form-field">
+            <label for="patientCity">City</label>
+            <input id="patientCity" class="field-control" type="text" formControlName="city" autocomplete="address-level2" placeholder="City" />
+            @if (patientForm.controls.city.touched && patientForm.controls.city.invalid) { <span class="field-error">Please enter a city.</span> }
+          </div>
+        </div>
+        <div class="dialog-actions">
+          <button class="button button-outline" type="button" (click)="closeAddDialog()" [disabled]="saving()">Cancel</button>
+          <button class="button button-primary" type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save patient' }}</button>
+        </div>
+      </form>
+    </section>
+  </div>
+}
+
+@if (selectedPatient(); as patient) {
+  <div class="overlay" (click)="selectedPatient.set(null)">
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="patient-detail-title" (click)="$event.stopPropagation()">
+      <button class="dialog-close" type="button" aria-label="Close patient details" (click)="selectedPatient.set(null)">×</button>
+      <div class="patient-dialog-heading"><span class="patient-avatar large" aria-hidden="true">{{ initials(patient.patientName) }}</span><div><span class="eyebrow-label">PATIENT RECORD #{{ patient.patientId }}</span><h2 id="patient-detail-title">{{ patient.patientName }}</h2></div></div>
+      <p class="dialog-intro">Patient information currently available in the directory.</p>
+      <p class="patient-detail"><strong>Phone</strong><span>{{ patient.phone || 'Not provided' }}</span></p>
+      <p class="patient-detail"><strong>City</strong><span>{{ patient.city || 'Not provided' }}</span></p>
+      @if (patient.email) { <p class="patient-detail"><strong>Email</strong><span>{{ patient.email }}</span></p> }
+      <div class="dialog-actions"><button class="button button-primary" type="button" (click)="selectedPatient.set(null)">Done</button></div>
+    </section>
+  </div>
+}

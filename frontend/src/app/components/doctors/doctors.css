@@ -1,0 +1,21 @@
+.result-count { margin-left: auto; padding: 0 5px; color: #819194; font-size: 11px; }
+.doctor-toolbar { border-bottom: 1px solid #e8efed; border-radius: 12px; }
+.doctor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; padding-top: 19px; }
+.doctor-card { min-height: 247px; padding: 21px; border: 1px solid #e7efed; border-radius: 14px; background: #fff; box-shadow: 0 5px 18px rgba(34, 74, 74, .035); }
+.doctor-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.doctor-avatar { width: 51px; height: 51px; display: grid; place-items: center; border-radius: 16px; color: #39887e; background: #e7f3f0; font-family: Manrope, sans-serif; font-size: 14px; font-weight: 750; }
+.doctor-info { margin-top: 18px; }
+.doctor-specialty { display: block; color: #489288; font-size: 10px; font-weight: 700; letter-spacing: .55px; text-transform: uppercase; }
+.doctor-info h2 { margin: 6px 0; color: #2b474d; font-family: Manrope, sans-serif; font-size: 16px; letter-spacing: -.25px; }
+.doctor-info p { margin: 0; color: #849294; font-size: 10px; }
+.doctor-info p strong { color: #5c7074; font-weight: 650; }
+.doctor-actions { display: flex; gap: 8px; margin-top: 20px; }
+.doctor-actions .button { min-height: 37px; flex: 1; padding: 0 9px; font-size: 10px; }
+.doctor-dialog-profile { display: flex; align-items: center; gap: 15px; padding-right: 22px; }
+.doctor-avatar.large { width: 63px; height: 63px; flex: 0 0 63px; border-radius: 19px; font-size: 17px; }
+.doctor-dialog-profile h2 { margin-top: 5px; font-size: 19px; }
+.doctor-id { display: block; margin-top: 5px; color: #8a999b; font-size: 10px; }
+.doctor-detail { display: flex; justify-content: space-between; gap: 20px; padding: 11px 0; border-top: 1px solid #edf1f0; color: #718487; font-size: 11px; }
+.doctor-detail strong { color: #385459; }
+@media (max-width: 850px) { .doctor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .doctor-grid { grid-template-columns: 1fr; } .doctor-card { min-height: 225px; } .result-count { margin-left: 0; } .doctor-dialog-profile { align-items: flex-start; flex-direction: column; } }

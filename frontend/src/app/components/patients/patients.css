@@ -1,0 +1,13 @@
+.patient-toolbar { border-bottom: 1px solid #e8efed; border-radius: 12px; }
+.result-count { margin-left: auto; color: #819194; font-size: 11px; }
+.patient-table-wrap { margin-top: 17px; border-radius: 12px; }
+.patient-name { display: flex; align-items: center; gap: 10px; }
+.patient-avatar { width: 35px; height: 35px; display: inline-grid; flex: 0 0 35px; place-items: center; border-radius: 11px; color: #39887e; background: #e7f3f0; font-family: Manrope, sans-serif; font-size: 10px; font-weight: 750; }
+.patient-avatar.large { width: 52px; height: 52px; flex-basis: 52px; border-radius: 16px; font-size: 15px; }
+.empty-cta { margin-top: 19px; }
+.field-error { color: #ae544a; font-size: 10px; }
+.patient-dialog-heading { display: flex; align-items: center; gap: 14px; padding-right: 25px; }
+.patient-dialog-heading h2 { margin-top: 5px; font-size: 19px; }
+.patient-detail { display: flex; justify-content: space-between; gap: 18px; padding: 11px 0; border-top: 1px solid #edf1f0; color: #718487; font-size: 11px; }
+.patient-detail strong { color: #385459; }
+@media (max-width: 650px) { .result-count { margin-left: 0; } .patient-table-wrap { margin-left: -1px; } .patient-dialog-heading { align-items: flex-start; flex-direction: column; } }

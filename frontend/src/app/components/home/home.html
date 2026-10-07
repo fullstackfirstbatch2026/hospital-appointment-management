@@ -1,0 +1,154 @@
+<section id="home" class="home-hero">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR HEALTH, OUR PRIORITY</div>
+    <h1>Quality healthcare,<br /><span>simplified.</span></h1>
+    <p>Find the right care, connect with trusted doctors, and book your next appointment — all in one place.</p>
+    <div class="hero-actions">
+      <a class="button button-primary button-large" routerLink="/appointments">
+        Book an appointment
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="button button-outline button-large" routerLink="/doctors">Meet our doctors</a>
+    </div>
+    <div class="hero-assurance">
+      <span class="assurance-icon" aria-hidden="true">
+        <svg viewBox="0 0 20 20"><path d="M10 2.5 3.5 5v4.2c0 4.2 2.8 7 6.5 8.3 3.7-1.3 6.5-4.1 6.5-8.3V5L10 2.5Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m7 10 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span>Trusted care, centered around you</span>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="visual-orbit orbit-one"></div>
+    <div class="visual-orbit orbit-two"></div>
+    <svg class="doctor-illustration" viewBox="0 0 430 430" role="img" aria-labelledby="doctor-illustration-title">
+      <title id="doctor-illustration-title">Friendly doctor in a white coat</title>
+      <ellipse cx="215" cy="393" rx="146" ry="18" fill="#D5E8E8"/>
+      <path d="M113 228c5-39 35-66 102-66s97 27 102 66l24 150H89l24-150Z" fill="#fff"/>
+      <path d="M160 177c10 19 27 29 55 29s45-10 55-29l26 20-32 65-49-38-49 38-32-65 26-20Z" fill="#EAF5F3"/>
+      <path d="m169 174 46 51-33 42-43-72 30-21Zm92 0-46 51 33 42 43-72-30-21Z" fill="#DCECE9"/>
+      <path d="M163 102c0-45 24-71 61-71s61 26 61 71v27c0 37-28 66-61 66s-61-29-61-66v-27Z" fill="#B87552"/>
+      <path d="M170 99c1-40 24-60 55-60 23 0 39 12 49 31 7 13 8 26 8 38-9-7-17-20-19-34-17 15-50 24-93 25Z" fill="#203E49"/>
+      <path d="M169 108c6 3 13 2 17-2m67 0c5 4 12 5 18 2" fill="none" stroke="#263C3F" stroke-width="4" stroke-linecap="round"/>
+      <path d="M197 143c12 10 29 10 41 0" fill="none" stroke="#9A573D" stroke-width="4" stroke-linecap="round"/>
+      <path d="M188 107h17m31 0h17" stroke="#203E49" stroke-width="5" stroke-linecap="round"/>
+      <path d="M127 240c-17 41-23 94-18 138h52l20-115-54-23Zm176 0c17 41 23 94 18 138h-52l-20-115 54-23Z" fill="#F4FAF9"/>
+      <path d="M200 228h30l-8 23 19 127h-53l20-127-8-23Z" fill="#47A99C"/>
+      <path d="M147 249c-9 20-15 43-17 67l27 18 18-71-28-14Zm136 0c9 20 15 43 17 67l-27 18-18-71 28-14Z" fill="#F4FAF9"/>
+      <path d="M143 277c-21 0-36 15-36 36s15 36 36 36h13v-72h-13Zm143 0c21 0 36 15 36 36s-15 36-36 36h-13v-72h13Z" fill="#fff"/>
+      <path d="M156 276v74m118-74v74" stroke="#DCECE9" stroke-width="4"/>
+      <path d="M180 268h25" stroke="#47A99C" stroke-width="3" stroke-linecap="round"/>
+      <path d="M260 276v36c0 8-6 14-14 14s-14-6-14-14v-29" fill="none" stroke="#47A99C" stroke-width="4" stroke-linecap="round"/>
+      <path d="M235 291h-9" stroke="#47A99C" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="260" cy="335" r="8" fill="#47A99C"/>
+      <path d="M133 376h54m55 0h54" stroke="#DCECE9" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<section class="stats-strip" aria-label="CarePlus at a glance">
+  @for (stat of stats(); track stat.label) {
+    <div class="stat-item">
+      <span class="stat-icon" aria-hidden="true">
+        @switch (stat.icon) {
+          @case ('doctor') { <svg viewBox="0 0 24 24"><path d="M16 20v-1.5a4.5 4.5 0 0 0-4.5-4.5h-4A4.5 4.5 0 0 0 3 18.5V20m6.5-9a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7.5-2h5m-2.5-2.5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> }
+          @case ('patient') { <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M18 8h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> }
+          @case ('calendar') { <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 3v4M8 3v4M3 10h18m-12 5 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg> }
+          @default { <svg viewBox="0 0 24 24"><path d="M12 3v18m9-9H3m15.4-6.4L5.6 18.4m12.8 0L5.6 5.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg> }
+        }
+      </span>
+      <span class="stat-text"><strong>{{ stat.value }}</strong><small>{{ stat.label }}</small></span>
+    </div>
+  }
+</section>
+@if (statsLoading()) {
+  <p class="stats-note" role="status">Loading hospital totals…</p>
+} @else if (statsUnavailable()) {
+  <p class="stats-note" role="status">Some totals could not be loaded. Refresh the page to try again.</p>
+}
+
+<section id="quick-actions" class="section-block quick-section">
+  <div class="section-heading">
+    <div><span class="section-kicker">GET STARTED</span><h2>How can we help today?</h2></div>
+    <p>Everything you need to manage your care, in one place.</p>
+  </div>
+  <div class="quick-grid">
+    <a class="quick-card" routerLink="/doctors">
+      <span class="quick-icon aqua"><svg viewBox="0 0 24 24"><path d="M16 20v-1.5a4.5 4.5 0 0 0-4.5-4.5h-4A4.5 4.5 0 0 0 3 18.5V20m6.5-9a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7.5-2h5m-2.5-2.5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+      <h3>Find a doctor</h3><p>Meet caring specialists who put you first.</p><span class="quick-link">Explore doctors <b>→</b></span>
+    </a>
+    <a class="quick-card" routerLink="/appointments">
+      <span class="quick-icon blue"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 3v4M8 3v4M3 10h18m9 5h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+      <h3>Book an appointment</h3><p>Choose a convenient time for your next visit.</p><span class="quick-link">Schedule a visit <b>→</b></span>
+    </a>
+    <a class="quick-card" routerLink="/patients">
+      <span class="quick-icon lavender"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M18 8h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+      <h3>View patients</h3><p>Keep patient information organized and accessible.</p><span class="quick-link">Patient directory <b>→</b></span>
+    </a>
+    <a class="quick-card" routerLink="/appointments">
+      <span class="quick-icon peach"><svg viewBox="0 0 24 24"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 5h16m-11-7v4m6-4v4m-8 7h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <h3>View appointments</h3><p>See upcoming visits and stay on top of your care.</p><span class="quick-link">Manage appointments <b>→</b></span>
+    </a>
+  </div>
+  <div class="report-action">
+    <button class="button button-outline" type="button" (click)="loadAboveAverageDoctors()" [attr.aria-busy]="reportLoading()">
+      Doctors With More Than Average Appointments
+    </button>
+    @if (reportLoading()) {
+      <span role="status">Loading report…</span>
+    }
+  </div>
+  @if (reportError()) {
+    <p class="inline-error report-error" role="alert">{{ reportError() }}</p>
+  }
+  @if (reportLoaded()) {
+    @if (aboveAverageDoctors().length > 0) {
+      <div class="table-wrap report-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Doctor ID</th><th>Doctor Name</th><th>Appointment Count</th></tr>
+          </thead>
+          <tbody>
+            @for (doctor of aboveAverageDoctors(); track doctor.doctorId) {
+              <tr>
+                <td>#{{ doctor.doctorId }}</td>
+                <td>{{ doctor.doctorName }}</td>
+                <td>{{ doctor.appointmentCount }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <p class="report-empty" role="status">No doctors currently have more than the average number of appointments.</p>
+    }
+  }
+</section>
+
+<section id="care-features" class="feature-section">
+  <div class="feature-intro">
+    <span class="section-kicker">CARE THAT WORKS FOR YOU</span>
+    <h2>Better care begins with a better experience.</h2>
+    <p>We bring people and care teams together with the tools to make every step feel simple, personal, and connected.</p>
+    <a class="text-link" routerLink="/doctors">Discover CarePlus <span>→</span></a>
+  </div>
+  <div class="feature-list">
+    <div class="feature-row"><span class="feature-check">✓</span><span><strong>Easy appointment booking</strong><small>Find a time that works, without the back-and-forth.</small></span></div>
+    <div class="feature-row"><span class="feature-check">✓</span><span><strong>Qualified, compassionate doctors</strong><small>Explore trusted specialists across multiple fields.</small></span></div>
+    <div class="feature-row"><span class="feature-check">✓</span><span><strong>Connected patient management</strong><small>Keep the details that matter clear and organized.</small></span></div>
+    <div class="feature-row"><span class="feature-check">✓</span><span><strong>Appointments at a glance</strong><small>Stay informed with your visit details in one place.</small></span></div>
+    <div class="feature-row"><span class="feature-check">✓</span><span><strong>Secure, organized records</strong><small>Thoughtful tools designed around patient privacy.</small></span></div>
+  </div>
+</section>
+
+<section id="how-it-works" class="how-section">
+  <div class="section-heading centered">
+    <div><span class="section-kicker">A FEW SIMPLE STEPS</span><h2>Care, made easy</h2></div>
+    <p>Getting started is easy. We're here at every step.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card"><span class="step-number">01</span><span class="step-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M18 8h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><h3>Choose your doctor</h3><p>Browse our doctors and find the specialist who feels right for you.</p></div>
+    <div class="step-card"><span class="step-number">02</span><span class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 3v4M8 3v4M3 10h18m5 4h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><h3>Pick a date &amp; time</h3><p>Choose an appointment time that works for your schedule.</p></div>
+    <div class="step-card"><span class="step-number">03</span><span class="step-icon"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>You're all set</h3><p>Confirm your visit and we'll take care of the rest.</p></div>
+  </div>
+  <a class="button button-primary button-large how-cta" routerLink="/appointments">Book your appointment <span>→</span></a>
+</section>

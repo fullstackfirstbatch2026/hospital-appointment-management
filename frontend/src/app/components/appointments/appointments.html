@@ -1,0 +1,143 @@
+<section class="page-container">
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow-label">YOUR CARE, CONNECTED</span>
+      <h1>Appointments</h1>
+      <p>View complete visit details or schedule a new appointment with one of our care team members.</p>
+    </div>
+    <button class="button button-primary" type="button" (click)="openBooking()">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Book appointment
+    </button>
+  </div>
+
+  @if (successMessage()) { <div class="inline-success appointment-success" role="status">{{ successMessage() }}</div> }
+  @if (dataError()) { <div class="inline-error appointment-error" role="alert">{{ dataError() }}</div> }
+  @if (listError()) {
+    <div class="inline-error appointment-error" role="alert">{{ listError() }} <button class="table-link" type="button" (click)="loadAppointments()">Try again</button></div>
+  }
+
+  <div class="appointment-summary">
+    <span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 3v4M8 3v4M3 10h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+    <span><strong>{{ appointments().length }}</strong><small>{{ appointments().length === 1 ? 'appointment in your directory' : 'appointments in your directory' }}</small></span>
+    <span class="summary-note">Complete appointment details</span>
+  </div>
+
+  <div class="toolbar appointment-toolbar">
+    <label class="search-field">
+      <span class="sr-only">Search appointments</span>
+      <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.7" cy="8.7" r="5.7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m13 13 4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="field-control" type="search" placeholder="Search by patient, doctor or appointment ID" (input)="setSearch($event)" />
+    </label>
+    <label class="filter-field">
+      <span class="sr-only">Filter by doctor</span>
+      <select class="field-control" (change)="setDoctorFilter($event)">
+        <option value="">All doctors</option>
+        @for (doctor of doctors(); track doctor.doctorId) { <option [value]="doctor.doctorId">{{ doctor.doctorName }}</option> }
+      </select>
+    </label>
+    <label class="filter-field">
+      <span class="sr-only">Filter by patient</span>
+      <select class="field-control" (change)="setPatientFilter($event)">
+        <option value="">All patients</option>
+        @for (patient of patients(); track patient.patientId) { <option [value]="patient.patientId">{{ patient.patientName }}</option> }
+      </select>
+    </label>
+    <label class="date-filter">
+      <span class="sr-only">Filter by date</span>
+      <input class="field-control" type="date" [value]="dateFilter()" (change)="setDateFilter($event)" />
+    </label>
+    @if (query() || doctorFilter() || patientFilter() || dateFilter()) { <button class="clear-filters" type="button" (click)="resetFilters()">Clear filters</button> }
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state"><span class="loading-spinner" aria-hidden="true"></span><p>Loading appointment details…</p></div>
+  } @else if (!listError() && filteredAppointments().length === 0) {
+    <div class="empty-state surface-card">
+      <span class="empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 3v4M8 3v4M3 10h18m9 5h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+      <h2>{{ appointments().length === 0 ? 'No appointments yet' : 'No matching appointments' }}</h2>
+      <p>{{ appointments().length === 0 ? 'Schedule a visit to see complete appointment details here.' : 'Try changing or clearing your filters.' }}</p>
+      @if (appointments().length === 0) { <button class="button button-primary empty-cta" type="button" (click)="openBooking()">Schedule an appointment</button> }
+    </div>
+  } @else {
+    <div class="table-wrap appointment-table-wrap">
+      <table class="data-table appointment-table">
+        <thead><tr><th>Appointment</th><th>Doctor</th><th>Patient</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+        <tbody>
+          @for (appointment of filteredAppointments(); track appointment.appointmentId) {
+            <tr>
+              <td><span class="table-primary">#{{ appointment.appointmentId }}</span><span class="table-secondary">Visit details</span></td>
+              <td><span class="table-primary">{{ appointment.doctorName }}</span><span class="table-secondary">Doctor</span></td>
+              <td><span class="table-primary">{{ appointment.patientName }}</span><span class="table-secondary">Patient</span></td>
+              <td>{{ formatAppointmentDate(appointment.appointmentDate) }}</td>
+              <td>{{ formatAppointmentTime(appointment.appointmentTime) }}</td>
+              <td><span class="badge"><span class="badge-dot"></span> Scheduled</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
+
+@if (bookingOpen()) {
+  <div class="overlay" (click)="closeBooking()">
+    <section class="dialog booking-dialog" role="dialog" aria-modal="true" aria-labelledby="booking-title" (click)="$event.stopPropagation()">
+      <button class="dialog-close" type="button" aria-label="Close appointment booking form" (click)="closeBooking()">×</button>
+      <span class="eyebrow-label">LET’S GET YOU SCHEDULED</span>
+      <h2 id="booking-title">Book an appointment</h2>
+      <p class="dialog-intro">Choose a specialty first, then select a doctor, patient, and a time that works for your visit.</p>
+      @if (dataError()) { <div class="inline-error" role="alert">{{ dataError() }}</div> }
+      @if (bookingError()) { <div class="inline-error" role="alert">{{ bookingError() }}</div> }
+      <form [formGroup]="bookingForm" (ngSubmit)="bookAppointment()" novalidate>
+        <div class="form-grid">
+          <div class="form-field full-width">
+            <label for="appointmentSpecialization">Choose a specialization</label>
+            <select id="appointmentSpecialization" class="field-control" formControlName="specializationId">
+              <option value="" disabled>Select a specialization</option>
+              @for (specialization of specializations(); track specialization.specializationId) {
+                <option [value]="specialization.specializationId">{{ specialization.specializationName }}</option>
+              }
+            </select>
+            @if (bookingForm.controls.specializationId.touched && bookingForm.controls.specializationId.invalid) { <span class="field-error">Please choose a specialization.</span> }
+          </div>
+          <div class="form-field full-width">
+            <label for="appointmentDoctor">Choose a doctor</label>
+            <select id="appointmentDoctor" class="field-control" formControlName="doctorId">
+              <option value="" disabled>{{ bookingForm.controls.specializationId.value ? 'Select a doctor' : 'Select a specialization first' }}</option>
+              @for (doctor of bookingDoctors(); track doctor.doctorId) {
+                <option [value]="doctor.doctorId">{{ doctor.doctorName }}</option>
+              }
+            </select>
+            @if (bookingForm.controls.doctorId.touched && bookingForm.controls.doctorId.invalid) { <span class="field-error">Please choose a doctor.</span> }
+            @if (bookingForm.controls.specializationId.value && bookingDoctors().length === 0) { <span class="field-error">No doctors are listed for this specialization.</span> }
+          </div>
+          <div class="form-field full-width">
+            <label for="appointmentPatient">Choose a patient</label>
+            <select id="appointmentPatient" class="field-control" formControlName="patientId">
+              <option value="" disabled>Select a patient</option>
+              @for (patient of patients(); track patient.patientId) { <option [value]="patient.patientId">{{ patient.patientName }} · #{{ patient.patientId }}</option> }
+            </select>
+            @if (bookingForm.controls.patientId.touched && bookingForm.controls.patientId.invalid) { <span class="field-error">Please choose a patient.</span> }
+          </div>
+          <div class="form-field">
+            <label for="appointmentDate">Appointment date</label>
+            <input id="appointmentDate" class="field-control" type="date" formControlName="appointmentDate" [min]="today" />
+            @if (bookingForm.controls.appointmentDate.touched && bookingForm.controls.appointmentDate.invalid) { <span class="field-error">Please select a date.</span> }
+          </div>
+          <div class="form-field">
+            <label for="appointmentTime">Appointment time</label>
+            <input id="appointmentTime" class="field-control" type="time" formControlName="appointmentTime" />
+            @if (bookingForm.controls.appointmentTime.touched && bookingForm.controls.appointmentTime.invalid) { <span class="field-error">Please select a time.</span> }
+          </div>
+        </div>
+        <div class="dialog-actions">
+          <button class="button button-outline" type="button" (click)="closeBooking()" [disabled]="saving()">Cancel</button>
+          <button class="button button-primary" type="submit" [disabled]="saving() || doctors().length === 0 || patients().length === 0 || specializations().length === 0">
+            {{ saving() ? 'Scheduling…' : 'Confirm appointment' }}
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+}

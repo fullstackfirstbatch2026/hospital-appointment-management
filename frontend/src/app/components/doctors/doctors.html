@@ -1,0 +1,81 @@
+<section class="page-container">
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow-label">OUR CARE TEAM</span>
+      <h1>Meet our doctors</h1>
+      <p>Find a trusted specialist who understands your needs. Our care team is here to help you feel your best.</p>
+    </div>
+    <a class="button button-primary" routerLink="/appointments">Book an appointment <span aria-hidden="true">→</span></a>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="inline-error" role="alert">{{ errorMessage() }} <button class="table-link" type="button" (click)="loadDoctors()">Try again</button></div>
+  }
+
+  <div class="toolbar doctor-toolbar">
+    <label class="search-field">
+      <span class="sr-only">Search doctors</span>
+      <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.7" cy="8.7" r="5.7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m13 13 4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input class="field-control" type="search" placeholder="Search by doctor, specialty or ID" (input)="setSearch($event)" />
+    </label>
+    <label class="filter-field">
+      <span class="sr-only">Filter by specialization</span>
+      <select class="field-control" (change)="setSpecialization($event)">
+        <option value="">All specialties</option>
+        @for (specialization of specializations(); track specialization.specializationId) {
+          <option [value]="specialization.specializationId">{{ specialization.specializationName }}</option>
+        }
+      </select>
+    </label>
+    <span class="result-count">{{ filteredDoctors().length }} {{ filteredDoctors().length === 1 ? 'doctor' : 'doctors' }}</span>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state"><span class="loading-spinner" aria-hidden="true"></span><p>Finding your care team…</p></div>
+  } @else if (!errorMessage() && filteredDoctors().length === 0) {
+    <div class="empty-state surface-card">
+      <span class="empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M18 8h4m-2-2v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+      <h2>{{ doctors().length === 0 ? 'Our directory is getting ready' : 'No doctors found' }}</h2>
+      <p>{{ doctors().length === 0 ? 'Doctor profiles will appear here as soon as they are available.' : 'Try another name or specialty to find the right care team member.' }}</p>
+    </div>
+  } @else {
+    <div class="doctor-grid">
+      @for (doctor of filteredDoctors(); track doctor.doctorId) {
+        <article class="doctor-card">
+          <div class="doctor-card-top">
+            <span class="doctor-avatar" aria-hidden="true">{{ initials(doctor.doctorName) }}</span>
+            <span class="badge"><span class="badge-dot"></span> Care team</span>
+          </div>
+          <div class="doctor-info">
+            <span class="doctor-specialty">{{ specializationName(doctor) }}</span>
+            <h2>{{ doctor.doctorName }}</h2>
+            <p>Doctor ID <strong>#{{ doctor.doctorId }}</strong></p>
+          </div>
+          <div class="doctor-actions">
+            <button class="button button-outline" type="button" (click)="selectedDoctor.set(doctor)">View details</button>
+            <a class="button button-primary" [routerLink]="['/appointments']" [queryParams]="{ doctorId: doctor.doctorId }">Book visit</a>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>
+
+@if (selectedDoctor(); as doctor) {
+  <div class="overlay" (click)="selectedDoctor.set(null)">
+    <section class="dialog doctor-dialog" role="dialog" aria-modal="true" aria-labelledby="doctor-dialog-title" (click)="$event.stopPropagation()">
+      <button class="dialog-close" type="button" aria-label="Close doctor details" (click)="selectedDoctor.set(null)">×</button>
+      <div class="doctor-dialog-profile">
+        <span class="doctor-avatar large" aria-hidden="true">{{ initials(doctor.doctorName) }}</span>
+        <div><span class="doctor-specialty">{{ specializationName(doctor) }}</span><h2 id="doctor-dialog-title">{{ doctor.doctorName }}</h2><span class="doctor-id">Doctor ID #{{ doctor.doctorId }}</span></div>
+      </div>
+      <p class="dialog-intro">Our care team is committed to thoughtful, personalized support at every visit.</p>
+      @if (doctor.email) { <p class="doctor-detail"><strong>Email</strong><span>{{ doctor.email }}</span></p> }
+      @if (doctor.phone) { <p class="doctor-detail"><strong>Phone</strong><span>{{ doctor.phone }}</span></p> }
+      <div class="dialog-actions">
+        <button class="button button-outline" type="button" (click)="selectedDoctor.set(null)">Close</button>
+        <a class="button button-primary" [routerLink]="['/appointments']" [queryParams]="{ doctorId: doctor.doctorId }">Book appointment</a>
+      </div>
+    </section>
+  </div>
+}

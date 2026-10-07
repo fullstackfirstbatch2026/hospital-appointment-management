@@ -1,0 +1,84 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" routerLink="/" aria-label="CarePlus Hospital home" (click)="closeMenu()">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none">
+          <rect width="40" height="40" rx="13" fill="currentColor" />
+          <path d="M18 10h4v8h8v4h-8v8h-4v-8h-8v-4h8v-8Z" fill="white" />
+        </svg>
+      </span>
+      <span class="brand-copy"><strong>CarePlus</strong><span>HOSPITAL</span></span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="primary-navigation"
+      [attr.aria-label]="menuOpen() ? 'Close navigation menu' : 'Open navigation menu'"
+      (click)="toggleMenu()"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="primary-navigation" class="primary-navigation" [class.is-open]="menuOpen()" aria-label="Main navigation">
+      <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Home</a>
+      <a class="nav-link" routerLink="/doctors" routerLinkActive="active" (click)="closeMenu()">Doctors</a>
+      <a class="nav-link" routerLink="/patients" routerLinkActive="active" (click)="closeMenu()">Patients</a>
+      <a class="nav-link" routerLink="/appointments" routerLinkActive="active" (click)="closeMenu()">Appointments</a>
+      <a class="button button-primary nav-cta" routerLink="/appointments" (click)="closeMenu()">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
+        Book appointment
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="footer-main page-width">
+    <div class="footer-brand-block">
+      <a class="brand footer-brand" routerLink="/" aria-label="CarePlus Hospital home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="13" fill="currentColor" />
+            <path d="M18 10h4v8h8v4h-8v8h-4v-8h-8v-4h8v-8Z" fill="white" />
+          </svg>
+        </span>
+        <span class="brand-copy"><strong>CarePlus</strong><span>HOSPITAL</span></span>
+      </a>
+      <p>Thoughtful care for every chapter of life. Your health, always at the heart of what we do.</p>
+      <div class="footer-open"><span class="status-dot"></span> Here for your health, every day</div>
+    </div>
+
+    <div class="footer-links">
+      <h2>Explore</h2>
+      <a routerLink="/">Home</a>
+      <a routerLink="/doctors">Our doctors</a>
+      <a routerLink="/patients">Patient directory</a>
+      <a routerLink="/appointments">Appointments</a>
+    </div>
+
+    <div class="footer-links footer-contact">
+      <h2>Get in touch</h2>
+      <a href="tel:+15550142000">+1 (555) 014-2000</a>
+      <a href="mailto:hello@careplushospital.com">hello&#64;careplushospital.com</a>
+      <span>100 Wellness Avenue<br />Springfield, CA 90000</span>
+    </div>
+
+    <div class="footer-note">
+      <span class="footer-note-icon" aria-hidden="true">✳</span>
+      <h2>Here for you.</h2>
+      <p>Good health is a journey. We’re honored to be part of yours.</p>
+    </div>
+  </div>
+  <div class="footer-bottom page-width">
+    <span>© 2025 CarePlus Hospital. All rights reserved.</span>
+    <span>Care that feels a little more personal.</span>
+  </div>
+</footer>
